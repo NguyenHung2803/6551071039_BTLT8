@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slideshow ảnh hoa</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #fafafa;
+    }
+
+    .slideshow-container {
+      width: 900px;
+      margin: 50px auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+    }
+
+    .slide-wrapper {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slide {
+      flex: 0 0 20%;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-right: 1px solid #ddd;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 45%;
+      transform: translateY(-50%);
+      background-color: rgba(255, 255, 255, 0.8);
+      border: none;
+      font-size: 25px;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 50%;
+    }
+
+    .arrow:hover {
+      background-color: #ffd6d6;
+    }
+
+    #prev {
+      left: 10px;
+    }
+
+    #next {
+      right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2> Slideshow ảnh </h2>
+  <div class="slideshow-container">
+    <button class="arrow" id="prev">&#10094;</button>
+    <div class="slide-wrapper" id="slides">
+      <!-- 8-10 ảnh -->
+      <div class="slide"><img src="https://i.pinimg.com/474x/ca/42/09/ca4209c60563a16b540cf88f1d27bfb2.jpg" alt="1"></div>
+      <div class="slide"><img src="https://i.pinimg.com/474x/0f/c7/8d/0fc78d541028eb859cebf0aad120ff4d.jpg" alt="2"></div>
+      <div class="slide"><img src="https://i.pinimg.com/originals/89/f5/c4/89f5c4595553cfb45bad52c558604307.jpg" alt="3"></div>
+      <div class="slide"><img src="https://jbagy.me/wp-content/uploads/2025/04/Hinh-meme-meo-cuoi-deu-1.jpg" alt="4"></div>
+      <div class="slide"><img src="https://cdn2.fptshop.com.vn/unsafe/800x0/meme_cho_1_e568e5b1a5.jpg" alt="5"></div>
+      <div class="slide"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkZU6-H0BQr1VGWNn3wOa6DDrpklNUKYV9dg&s" alt="7"></div>
+      <div class="slide"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4x5wMVC-lL6qFXyNNmcv5YRyrILTJrTqWuQ&s" alt="8"></div>
+      <div class="slide"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLael1EAczTOPHwb1B8tASHtWa2PYLy5ukpmELys9N5zq-LtFo5ubcaqjxYj000xjXYKI&usqp=CAU" alt="7"></div>
+      <div class="slide"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1UwjVhSKjix-brnuXayhpKLOb7qMs20KqV3drrrynFo8fUGO8e--1NaVNS3dCgTdZt_c&usqp=CAU" alt="8"></div>
+    </div>
+    <button class="arrow" id="next">&#10095;</button>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      const slideWrapper = $("#slides");
+      const slideCount = $(".slide").length;
+      const visibleSlides = 5;
+      let index = 0;
+
+      function showSlide() {
+        const offset = -index * (100 / visibleSlides);
+        slideWrapper.css("transform", `translateX(${offset}%)`);
+      }
+
+      let autoSlide = setInterval(function () {
+        index = (index + 1) % (slideCount - visibleSlides + 1);
+        showSlide();
+      }, 2000); 
+      $("#next").click(function () {
+        clearInterval(autoSlide); 
+        if (index < slideCount - visibleSlides) index++;
+        else index = 0;
+        showSlide();
+      });
+
+      $("#prev").click(function () {
+        clearInterval(autoSlide);
+        if (index > 0) index--;
+        else index = slideCount - visibleSlides;
+        showSlide();
+      });
+    });
+  </script>
+</body>
+</html>

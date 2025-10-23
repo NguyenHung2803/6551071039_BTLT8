@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Work To-Do List</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #0099b9;
+      text-align: center;
+      color: white;
+    }
+
+    h1 {
+      margin-top: 30px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #ffee88;
+    }
+
+    #todo-container {
+      background-color: #00a7c4;
+      width: 450px;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    #new-task {
+      width: 300px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    #add-btn {
+      background-color: #006b7f;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #add-btn:hover {
+      background-color: #004f5b;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      background-color: #00cba9;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #000;
+    }
+
+    li.completed {
+      background-color: #6d6d6d;
+      text-decoration: line-through;
+      color: #fff;
+    }
+
+    .delete-btn {
+      background-color: #00a0a0;
+      border: none;
+      color: white;
+      border-radius: 3px;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
+
+    .delete-btn:hover {
+      background-color: #007777;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="todo-container">
+    <h1>WORK TO-DOS</h1>
+    <p>Enter text into the input field to add items to your list.</p>
+    <p>Click the item to mark it as complete.</p>
+    <p>Click the "X" to remove the item from your list.</p>
+
+    <input type="text" id="new-task" placeholder="New item...">
+    <button id="add-btn">➕</button>
+
+    <ul id="task-list"></ul>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("#add-btn").click(function() {
+        let taskText = $("#new-task").val().trim();
+        if (taskText !== "") {
+          $("#task-list").append(
+            `<li>${taskText} <button class='delete-btn'>X</button></li>`
+          );
+          $("#new-task").val("");
+        }
+      });
+
+      $("#new-task").keypress(function(e) {
+        if (e.which === 13) $("#add-btn").click();
+      });
+
+      $(document).on("click", "li", function(e) {
+        if (!$(e.target).hasClass("delete-btn")) {
+          $(this).toggleClass("completed");
+        }
+      });
+
+      $(document).on("click", ".delete-btn", function() {
+        $(this).parent().fadeOut(300, function() {
+          $(this).remove();
+        });
+      });
+    });
+  </script>
+</body>
+</html>

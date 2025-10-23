@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý User</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      margin: 20px;
+    }
+    caption {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    form {
+      margin-bottom: 10px;
+    }
+    input {
+      padding: 5px;
+      margin-right: 5px;
+    }
+    button {
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid black;
+      text-align: center;
+      padding: 8px;
+    }
+    #deleteRow {
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <caption>Quản lý thông tin user</caption>
+
+  <form id="userForm">
+    <input type="text" id="name" placeholder="Name">
+    <input type="email" id="email" placeholder="Email Address">
+    <input type="date" id="birthdate">
+    <button type="button" id="addRow">Add Row</button>
+  </form>
+
+  <table id="userTable">
+    <thead>
+      <tr>
+        <th>Select</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Birthdate</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <button id="deleteRow">Delete Row</button>
+
+  <script>
+    $(document).ready(function () {
+      $("#addRow").click(function () {
+        const name = $("#name").val().trim();
+        const email = $("#email").val().trim();
+        const birthdate = $("#birthdate").val().trim();
+
+
+        if (!name || !email || !birthdate) {
+          alert("⚠️ Vui lòng nhập đầy đủ thông tin!");
+          return;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          alert("❌ Email không hợp lệ!");
+          return;
+        }
+        const newRow = `
+          <tr>
+            <td><input type="checkbox" class="selectRow"></td>
+            <td>${name}</td>
+            <td>${email}</td>
+            <td>${birthdate}</td>
+          </tr>
+        `;
+        $("#userTable tbody").append(newRow);
+
+        $("#name").val("");
+        $("#email").val("");
+        $("#birthdate").val("");
+      });
+
+      $("#deleteRow").click(function () {
+        $("#userTable tbody").find("input.selectRow:checked").each(function () {
+          $(this).closest("tr").remove();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
